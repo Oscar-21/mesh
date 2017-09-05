@@ -11,9 +11,7 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyRouterMiddleware, Router, browserHistory, Route } from 'react-router';
-import { useScroll } from 'react-router-scroll';
-
+import { BrowserRouter } from 'react-router-dom'
 //import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -31,19 +29,11 @@ import './global-styles';
 
 const NoMatch = () => <p>Page Not Found</p>;
 
-// Set up the router, wrapping all Routes in the App component
-const RootRoute = () => (
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <Route path="/Home" component={Home} />
-      <Route path="*" component={NoMatch} />
-    </Route>
-  </Router>
-);
-
 const render = () => {
-  ReactDOM.render(
-    <RootRoute />, 
+  ReactDOM.render( 
+    <BrowserRouter>
+      <App/>
+    </BrowserRouter>,
     document.getElementById('app')
   );
 };

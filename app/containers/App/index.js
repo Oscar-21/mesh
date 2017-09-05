@@ -8,13 +8,18 @@
  */
 
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Home from '../Home';
 
 const App = (props) => (
   <div>
     React-BoilerPlate
-   <div>
-     {props.children}
-   </div>
+
+    <Switch>
+      <Route exact path='/' component={Home} />
+      <Route render= { function() { return <p>Not Found</p> } } />
+    </Switch>
+	
   </div>
 );
 export default App;
