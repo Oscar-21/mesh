@@ -36,43 +36,6 @@ class App extends React.Component {
     };
   }
   
-  render() {
-    return (
-      <div>
-        <NavBar />
-
-        <Switch>
-          <Route exact path='/' render={() =>  
-            <Home
-              CloseModal={this.CloseModal}
-              Name={this.Name}
-              Password={this.Password}
-              Email={this.Email}
-              Company={this.Company}
-              PhoneNumber={this.PhoneNumber}
-              Bio={this.Bio}
-              WebSite={this.WebSite}
-              NewSkill={this.NewSkill}
-              CheckDigits={this.CheckDigits}
-              Avatar={this.Avatar}
-              storeUserData={this.storeUserData}
-              storeUser={this.storeUser}
-              modal={this.state.modal}
-              success={this.state.success}
-              error={this.state.error}
-              preview={this.state.preview}
-            />} 
-          />
-          <Route path='/about' render={ <About /> } />
-          <Route render= {() => <p>Not Found!</p>} />
-        </Switch>
-
-        <Footer />
-            
-      </div>
-    );
-  }
-
   // <SignUp /> Functions
   CloseModal = () => { this.setState({ modal: false }) }
   Name = (e) => { this.setState({ name: e.target.value  }) }
@@ -159,7 +122,42 @@ class App extends React.Component {
     });
   }
 
+  render() {
+    return (
+      <div>
+        <NavBar />
 
+        <Switch>
+          <Route exact path='/' render={() =>  
+            <Home
+              CloseModal={this.CloseModal}
+              Name={this.Name}
+              Password={this.Password}
+              Email={this.Email}
+              Company={this.Company}
+              PhoneNumber={this.PhoneNumber}
+              Bio={this.Bio}
+              WebSite={this.WebSite}
+              NewSkill={this.NewSkill}
+              CheckDigits={this.CheckDigits}
+              Avatar={this.Avatar}
+              storeUserData={this.storeUserData}
+              storeUser={this.storeUser}
+              modal={this.state.modal}
+              success={this.state.success}
+              error={this.state.error}
+              preview={this.state.preview}
+            />} 
+          />
+          <Route path='/about' render={ <About /> } />
+          <Route render= {() => <p>Not Found!</p>} />
+        </Switch>
+
+        <Footer />
+            
+      </div>
+    );
+  }
 }
 export default App;
 

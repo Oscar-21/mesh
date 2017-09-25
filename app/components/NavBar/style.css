@@ -1,0 +1,16 @@
+.navbar {
+  display: flex;
+  /*justify-content: space-between;*/
+  flex-wrap: no-wrap;
+}
+
+.logo {
+  background: blue;
+  width: 100px;
+  height: 100px;
+  border: 10px solid black;
+}
+
+li, Link {
+  display: inline block;
+}

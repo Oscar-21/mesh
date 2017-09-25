@@ -1,14 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import './style.css';
 
 const Navbar = () => ( 
-  <div>
-    NavBar
+  <nav clasName="navbar">
+    <div className="logo"></div>
     <ul>
-      <li> link </li>
-      <li> link </li>
-      <li> link </li>
-      <li> link </li>
+      <Link to="/"> <li> Home </li> </Link>
+      <Link to="/about"> <li> About </li> </Link>
     </ul>
-  </div> 
+  </nav> 
 );
-export default Navbar;
+export default withRouter(Navbar);
