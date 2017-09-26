@@ -10,10 +10,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from '../Home';
 import About from '../About';
+import SignUp from '../SignUp';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 
-class App extends React.PureComponent {
+class App extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -68,8 +69,10 @@ class App extends React.PureComponent {
         <NavBar />
 
         <Switch>
-          <Route exact path='/' render={() =>  
-            <Home
+          <Route exact path='/' component={Home} />
+          <Route path='/about' component={About} />
+          <Route path='/join' render={ () => 
+            <SignUp 
               CloseModal={this.CloseModal}
               Name={this.Name}
               Password={this.Password}
@@ -81,7 +84,6 @@ class App extends React.PureComponent {
               NewSkill={this.NewSkill}
               CheckDigits={this.CheckDigits}
               Avatar={this.Avatar}
-//              storeUserData={this.storeUserData}
               storeUser={this.storeUser}
               modal={this.state.modal}
               success={this.state.success}
@@ -94,7 +96,6 @@ class App extends React.PureComponent {
               loadSkills={this.loadSkills}
             />} 
           />
-          <Route path='/about' render={ <About /> } />
           <Route render= {() => <p>Not Found!</p>} />
         </Switch>
 

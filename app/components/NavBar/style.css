@@ -4,6 +4,14 @@
   flex-wrap: no-wrap;
 }
 
+ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+  width: 100%;
+  list-style: none;
+}
+
 .logo {
   background: blue;
   width: 100px;
@@ -13,4 +21,5 @@
 
 li, Link {
   display: inline block;
+  margin-right: 20px;
 }
