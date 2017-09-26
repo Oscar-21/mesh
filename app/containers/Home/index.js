@@ -5,10 +5,10 @@
  */
 import React from 'react';
 import Helmet from 'react-helmet';
+import Skill from '../../components/Skill';
 import './style.css';
 import './styleM.css';
-
-export default class Home extends React.Component {
+export default class Home extends React.PureComponent {
 
   render() {
     const success = this.props.success;
@@ -23,7 +23,7 @@ export default class Home extends React.Component {
       width: '100%', /* Full width */
       height: '100%', /* Full height */
       overflow: 'auto', /* Enable scroll if needed */
-      backgroundColor: 'rgb(0,0,0)', /* Fallback color */
+//      backgroundColor: 'rgb(0,0,0)', /* Fallback color */
       backgroundColor: 'rgba(0,0,0,0.4)', /* Black w/ opacity */
    };
 
@@ -44,6 +44,7 @@ export default class Home extends React.Component {
 
     return (
       <div>
+        {console.log('home')}
         <Helmet title="Home" meta={[ { name: 'description', content: 'Description of Home' }]}/>
 
         <div id="myModal" style={modal}>
@@ -53,45 +54,59 @@ export default class Home extends React.Component {
             </span>
 
             <p>
-              { !success && !error ? <input type="text" name="newSkill" onChange={this.props.NewSkill} /> : null }
-              { !success && !error ? <button onClick={this.props.storeUser}> Sign up </button> : null } 
               { success ? success : error }
             </p>
           </div>
         </div>
 
-        <label> Email </label>
-        <input 
-          type="email" 
-          name="email" 
-          placeholder="sophie@example.com"
-          onChange={this.props.Email} 
-        /> 
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}>
+          <label> Email </label>
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="sophie@example.com"
+            onChange={this.props.Email} 
+            size={20}
+          /> 
 
-        <label> name </label>
-        <input type="text" name="name" onChange={this.props.Name} /> 
+          <label> name </label>
+          <input type="text" name="name" onChange={this.props.Name} /> 
 
-        <label> Password </label>
-        <input type="password" name="password" onChange={this.props.Password} /> 
+          <label> Password </label>
+          <input type="password" name="password" onChange={this.props.Password} /> 
 
-        <label> Upload Profile Picture </label>
-        <input type="file" name="avatar" onChange={this.props.Avatar} />
-        <img src={this.props.preview} alt="" /> 
+          <label> Upload Profile Picture </label>
+          <input type="file" name="avatar" onChange={this.props.Avatar} />
+          <img src={this.props.preview} alt="" /> 
 
-        <label> Bio </label>
-        <input type="text" name="bio" onChange={this.props.Bio} /> 
+          <label> Bio </label>
+          <input type="text" name="bio" onChange={this.props.Bio} /> 
 
-        <label> Website </label>
-        <input type="text" name="website" onChange={this.props.Website} /> 
+          <label> Website </label>
+          <input type="text" name="website" onChange={this.props.Website} /> 
 
-        <label> Company </label>
-        <input type="text" name="company" onChange={this.props.Company} /> 
+          <label> Company </label>
+          <input type="text" name="company" onChange={this.props.Company} /> 
 
-        <label> Phone Number </label>
-        <input type="tel" name="phoneNumber" onChange={this.props.PhoneNumber} onBlur={this.props.CheckDigits} /> 
+          <label> Phone Number </label>
+          <input type="tel" name="phoneNumber" onChange={this.props.PhoneNumber} onBlur={this.props.CheckDigits} /> 
 
-        <button onClick={this.props.storeUserData}> Sign up </button>
+          <label> Skills </label>
+          <Skill skills={this.props.skills} AddSkill={this.props.AddSkill} />
 
+          <label> Additional Skills </label>
+          <input type="text" name="NewSkill" onBlur={this.props.NewSkill} /> 
+          <button onClick={this.props.storeUser}> Sign up </button>
+          <SelectedSkills skills={this.props.SelectedSkills} />
+          <NewSkills skills={this.props.newSkillz} />
+          {/*this.props.selectedSkills ? this.props.selectedSkills : null*/}
+          {/*this.props.newSkillz ? this.props.newSkillz : null*/}
+        </div>
       </div>
     );
   }

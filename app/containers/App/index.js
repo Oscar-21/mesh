@@ -13,7 +13,7 @@ import About from '../About';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -25,7 +25,6 @@ class App extends React.Component {
       company: '',
       website: '',
       bio: '',
-      newSkill: '',
       phoneNumber: '',
       avatar: '',
       preview: '',
@@ -33,12 +32,39 @@ class App extends React.Component {
       success: '',
       modal: false,
       error: '',
+      // Skills
+      skills: [],
+      newSkill: [],
+      selectedSkills: [],
+
     };
   }
+
+  componentDidMount() {
+    this.loadSkills();
+  }
+
+ /* componentDidUpdate(prevState) {
+    if (prevState.selectedSkills !== this.state.selectedSkills) {
+      console.log('new skill yo');
+      this.storeUserData();
+    }
+  }*/
+
+  loadSkills = () => {
+    fetch('http://react.app/api/skills'
+    ).then(response => 
+      response.json()
+    ).then((json) => { 
+      this.setState({ skills: json });
+    });
+  }
   
+
   render() {
     return (
       <div>
+        {console.log('app')}
         <NavBar />
 
         <Switch>
@@ -55,12 +81,17 @@ class App extends React.Component {
               NewSkill={this.NewSkill}
               CheckDigits={this.CheckDigits}
               Avatar={this.Avatar}
-              storeUserData={this.storeUserData}
+//              storeUserData={this.storeUserData}
               storeUser={this.storeUser}
               modal={this.state.modal}
               success={this.state.success}
               error={this.state.error}
               preview={this.state.preview}
+              skills={this.state.skills}
+              newSkillz={this.state.newSkill}
+              AddSkill={this.AddSkill}
+              selectedSkills={this.state.selectedSkills}
+              loadSkills={this.loadSkills}
             />} 
           />
           <Route path='/about' render={ <About /> } />
@@ -82,7 +113,25 @@ class App extends React.Component {
   PhoneNumber = (e) => { this.setState({ phoneNumber: e.target.value  }) }
   Bio = (e) => { this.setState({ bio: e.target.value  }) }
   Website = (e) => { this.setState({ website: e.target.value  }) } 
-  NewSkill = (e) => { this.setState({ newSkill: e.target.value }) }
+
+  NewSkill = (e) => {
+    if (this.state.newSkill.length === 0) {
+      const skill = this.state.newSkill.slice();
+      skill.push(e.target.value);
+      this.setState({ newSkill: skill }); 
+    } else {
+      const skill = this.state.newSkill.slice();
+      const check = skill.indexOf(e.target.value) > -1;
+
+      if (!check) {
+        console.log('old !== new');
+        skill.push(e.target.value);
+        this.setState({ newSkill: skill });
+      } else {
+        console.log('already in array');
+      }
+    }
+  }
 
   CheckDigits = () => {
     if (this.state.phoneNumber.length !== 7) {
@@ -104,8 +153,10 @@ class App extends React.Component {
     reader.readAsDataURL(file);
   }
 
-  storeUserData = () => {
+  storeUser = () => {
     const data = new FormData();
+//    const selectedSkills = this.state.selectedSkills;
+  //  const newSkills = this.state.newSkill.length !== 1 ? selectedSkills.concat(this.state.newSkill) : selectedSkills;
     data.append('name', this.state.name);
     data.append('email', this.state.email);
     data.append('password', this.state.password);
@@ -117,19 +168,42 @@ class App extends React.Component {
     if (this.state.bio) data.append('bio', this.state.bio);
     if (this.state.website) data.append('website', this.state.website);
     if (this.state.phoneNumber) data.append('phoneNumber', this.state.phoneNumber);
+    if (this.state.newSkill.length !== 0) data.append('newSkill', this.state.newSkill);
+    if (this.state.selectedSkills.length !== 0) data.append('skills', this.state.selectedSkills);
 
-    this.setState({
-      modal: true,
-      error: '',
-      success: ''
-    }, () => {
-      if (this.state.newSkill) data.append('newSkill', this.state.newSkill);
+    fetch('http://react.app/api/SignUp', {
+      method: 'post',
+      body: data,
+    })
+    .then(response => { 
+      return response.json();
+    })
+    .then(json => { 
+      if (json.success) {
+        this.setState({ 
+          success: json.success, 
+          modal: true, 
+          error: '' 
+        });
+      }
+
+      if (json.error) {
+        this.setState({ 
+          error: json.error,
+          modal: true,
+          success: ''
+        });
+      }
+    })
+    .catch(err => {
+      alert(`Error in fetching data from server: ${err}`);
     });
 
-    this.setState({ data: data });
+//    this.setState({ data: data });
   }
 
-  storeUser = () => {
+/*  storeUser = () => {
+    console.log(this.state.data);
     fetch('http://react.app/api/SignUp', {
       method: 'post',
       body: this.state.data,
@@ -157,8 +231,23 @@ class App extends React.Component {
     .catch(err => {
       alert(`Error in fetching data from server: ${err}`);
     });
-  }
+  } */
 
+// <Skill /> Functions
+
+  AddSkill = (e) => {
+    const skill = this.state.selectedSkills.slice();
+    const check = skill.indexOf(e.target.value) > -1;
+
+    if (!check) {
+      console.log(`AddSkill: ${e.target.value}`);
+      console.log(`AddSkill Type: ${typeof e.target.value}`);
+      skill.push(e.target.value);
+      this.setState({ selectedSkills: skill });
+    } else {
+      console.log('already in array');
+    }
+  }
 
 }
 export default App;

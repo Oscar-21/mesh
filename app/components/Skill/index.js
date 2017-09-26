@@ -9,23 +9,30 @@ import React from 'react';
 import './style.css';
 import './styleM.css';
 
-export default class Skill extends React.PureComponent {
-  constructor() {
-    super();
+export default class Skill extends React.Component {
+/*  constructor(props) {
+    super(props);
     this.state = {
+      skills: props.skills,
     };
-  }
+  }*/
 
+  
+  render() {
+    return (
+      <SkillList skills={this.props.skills} AddSkill={this.props.AddSkill} />      
+    );
   }
 }
 
 function SkillList(props) {
-  const SkillListItems = props.skills.map(skill => <SkillTag key={skill.id} skill={skill} />);
+  const SkillTags = props.skills.map(skill => <SkillTag key={skill.id} skill={skill.name} />);
   return (
-      <ul>{SkillListItems}</ul>
+    <select onChange={props.AddSkill}>
+      <option> none </option>
+      {SkillTags}
+    </select>
   );
 }
 
-
-
-const SkillTag = props => <li> {props.skill} </li>; 
+const SkillTag = props => <option> {props.skill} </option>; 
